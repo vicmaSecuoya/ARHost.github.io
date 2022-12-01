@@ -82,6 +82,9 @@
 		-->
 	</div>
 
+	<!--
+		Components must be initialized before their use! Do not add them directly in <a-scene>, thats a bad practice.
+	-->
 	<script src="./js/Components/modelRenderer.js"></script>
 	<script src="./js/Components/mobileBody.js"></script>
 	<script src="./js/Components/collider.js"></script>
@@ -89,6 +92,10 @@
 	<script src="./js/Functions/Input/joystick.js"></script>
 
 
+	
+	<!--
+		Initialize GameObjects here(complex components, which add other componentes to themselves)
+	-->
 	<script src="./js/GameObjects/player.js"></script>
 
 

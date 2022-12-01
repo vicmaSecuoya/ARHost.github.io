@@ -1,18 +1,12 @@
+import Player from "./GameObjects/player.js"
+import Joystick from "./Functions/Input/joystick.js"
 
-console.log("Executing")
+export default function generateScene() {
 
-AFRAME.registerComponent('gamescene',
-    {
-        schema: {},
-        'init': function () {
-            console.log("Fuck u VIcente");
-            console.debug("Created Scene!");
-            var player = new Player("hiro", "juan");
+}
 
+console.log("Creating scene...");
 
-        },
-        tick: function () {
+var joystick1 = new Joystick("mainscene", "stick1", 64, 8);
 
-        }
-    });
-console.log("Executing")
+var player = new Player("hiro", "juan");

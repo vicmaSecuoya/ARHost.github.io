@@ -1,4 +1,4 @@
-export class MeshRenderer {
+export default class MeshRenderer {
     constructor(parent, modelPath) {
 
         this.parent = parent;

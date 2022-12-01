@@ -1,25 +1,28 @@
-import GameComponent from "../Components/gameComponent.js";
-import MeshRenderer from "../Components/meshRenderer.js"
-import Collider from "../Components/collider.js"
+AFRAME.registerComponent('player', {
+    schema: {
+        color: { default: 'true' }
+    },
 
-export default class Player extends GameComponent {
-    constructor(parentId) {
-        super("player", parentId);
+    init: function () {
+        this.el.setAttribute("scale", "0.1 0.1 0.1")
+        this.speed = 3;
 
-        this.entity.setAttribute("scale", "0.1 0.1 0.1")
-        this.entity.position = "0 0 0"
+        console.log("Create Player");
 
+        this.el.setAttribute("modelrenderer", "../assets/gltf/character.gltf");
+        this.el.setAttribute("mobilebody", "");
+        this.el.setAttribute("collider", "");
 
-        this.meshRenderer = new MeshRenderer(this.entity, "./assets/gltf/character.gltf");
-        this.collider = new Collider(this.entity, "player");
-        console.log("Span player");
+        this.mobile = this.el.components.mobilebody;
+        this.model = this.el.components.modelrenderer;
+        this.collider = this.el.components.collider;
+
+        this.joystick = document.getElementById("joystick").components.joystick;
+    },
+    
+    tick: function (time, timeDelta) {
+        var deltaPos = timeDelta * 0.001 * this.speed;
+        this.mobile.move(this.joystick.joystick.value.x * deltaPos, 0, this.joystick.joystick.value.y * deltaPos);
     }
 
-    move(distance, directionX, directionY) {
-
-        juan.setAttribute("animation-mixer", "clip: AnimacionCutre");
-        this.object3D.position.x += directionX * distance;
-        this.object3D.position.z += directionY * distance;
-
-    }
-}
+});

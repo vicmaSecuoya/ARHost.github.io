@@ -1,11 +1,19 @@
-import GameComponent from "../..//Components/gameComponent.js";
+AFRAME.registerComponent("joystick", {
 
-export default class Joystick extends GameComponent {
+	'init': function () {
+		this.joystick = new Joystick("stick1", 8, 4);
+	},
+
+	'tick': function (time, deltaTime) {
+		//moveCharacter(speed * deltaTime * 0.001, this.joystick1.value.x, this.joystick1.value.y);
+	}
+});
+
+class Joystick {
 	// stickID: ID of HTML element (representing joystick) that will be dragged
 	// maxDistance: maximum amount joystick can move in any direction
 	// deadzone: joystick must move at least this amount from origin to register value change
-	constructor(sceneID, stickID, maxDistance, deadzone) {
-		super("joystick", sceneID);
+	constructor(stickID, maxDistance, deadzone) {
 
 		this.id = stickID;
 		let stick = document.getElementById(stickID);

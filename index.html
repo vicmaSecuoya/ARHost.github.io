@@ -43,6 +43,54 @@
 	.skyColor {
 		filter: hue-rotate(240deg) saturate(100%) brightness(100%) drop-shadow(0px 0px 20px white);
 	}
+
+
+
+	.menu {
+		margin: 0 auto;
+		display: flex;
+		flex-flow: column wrap;
+		width: 80rem;
+		max-width: 100%;
+		border-radius: 2rem;
+		background: var(--menu-bg);
+	}
+
+	.btn-menu {
+		position: relative;
+		cursor: pointer;
+		background: var(--menu-bg);
+		border: none;
+		padding: 2rem;
+		color: var(--menu-font-color);
+		font-weight: 700;
+		border-top: 0.1rem solid var(--menu-border);
+		border-bottom: 0.1rem solid var(--menu-border);
+		transition: background 1s;
+	}
+
+	.btn-menu:hover {
+		background: var(--menu-bg-hover);
+	}
+
+	.btn-menu:focus {
+		outline: none;
+		box-shadow: none;
+	}
+
+	.selected {
+		background: var(--menu-bg-selected);
+	}
+
+	.selected::before {
+		position: absolute;
+		left: 0;
+		top: 0;
+		content: "";
+		background: var(--menu-bg-selected-chevron);
+		height: 5.6rem;
+		width: 0.5rem;
+	}
 </style>
 
 <head>
@@ -50,6 +98,20 @@
 </head>
 
 <body>
+
+	<main>
+		<canvas>
+
+			<div class="menu">
+				<button class="btn-menu selected">One</button>
+				<button class="btn-menu">Two</button>
+				<button class="btn-menu">Three</button>
+				<button class="btn-menu">Four</button>
+				<button class="btn-menu">Five</button>
+			</div>
+		</canvas>
+	</main>
+
 	<div class="mainUI" id="uiDiv" oncontextmenu="return false;">
 
 		<!-- top-left -->
@@ -83,7 +145,7 @@
 	</div>
 
 	<!--
-		Components must be initialized before their use! Do not add them directly in <a-scene>, thats a bad practice.
+		Components must be initialized before their use! Do not add them directly in <a-scene>, thats a bad practice
 	-->
 	<script src="./js/Components/modelRenderer.js"></script>
 	<script src="./js/Components/mobileBody.js"></script>
@@ -92,13 +154,18 @@
 	<script src="./js/Functions/Input/joystick.js"></script>
 
 
-	
+
 	<!--
 		Initialize GameObjects here(complex components, which add other componentes to themselves)
 	-->
 	<script src="./js/GameObjects/player.js"></script>
+	<script src="./js/GameObjects/building.js"></script>
 
 
+	Cucha tiburao. Ya sabes mas o menos como montar una escena. Es una mierda porque no se pueden añadir objetos en
+	runtime, asi que por ahora se mantiene una a-scene estatica y tirando. Mira si eso como cambiar la a-scene con src.
+	Intenta avanzar un poco en las mecánicas que hay en el doc, y comprueba el github que no funciona muy bien ahora que
+	digamos. No te olvides de hacer una rama nueva.
 
 	<a-scene id="mainscene" embedded arjs='sourceType: webcam;'
 		renderer='antialias: true; alpha: true; precision: medium;'>
@@ -106,6 +173,10 @@
 
 		<a-marker preset="hiro" id="hiro">
 			<a-entity player></a-entity>
+			<a-entity building position="1 0 0.24" rotation="0 45 0"></a-entity>
+			<a-entity building position="-0.5 0 1.4" rotation="0 89 0"></a-entity>
+			<a-entity building position="1.4 0 1.5" rotation="0 32 0"></a-entity>
+
 		</a-marker>
 
 		<a-entity camera id="camera">

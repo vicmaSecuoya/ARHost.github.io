@@ -5,7 +5,7 @@ AFRAME.registerComponent('building', {
 
         console.log("Create Building");
 
-        this.el.setAttribute("modelrenderer", "/assets/gltf/house.gltf");
+        this.el.setAttribute("modelrenderer", "../assets/gltf/house.gltf");
         this.el.setAttribute("collider", "");
 
         this.model = this.el.components.modelrenderer;

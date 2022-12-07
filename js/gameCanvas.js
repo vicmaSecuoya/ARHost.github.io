@@ -93,9 +93,9 @@ class CanvasElement {
         this.localY -= parent.localY;
     }
 
-    move(x, y) {
-        this.x = x;
-        this.y = y;
+    moveTo(x, y) {
+        this.localX = x;
+        this.localY = y;
     }
 
     render(offsetX, offsetY) {
@@ -159,26 +159,32 @@ class CanvasLerpable {
         gameCanvas.lerpables.push(this);
     }
 
-    lerpBySpeed(targetX, targetY, speed) {
+    lerpBySpeed(worldTargetX, worldTargetY, speed) {
         var localCenter = this.canvasElement.parent.getPosition();
         //To local coords
         if (this.canvasElement.parent != undefined) {
-            this.targetX = targetX - localCenter[0];
-            this.targetY = targetY - localCenter[1];
+            this.targetX = worldTargetX - localCenter[0];
+            this.targetY = worldTargetY - localCenter[1];
         }
 
         var distance = Math.sqrt(Math.pow(this.targetX - this.canvasElement.localX, 2) + Math.pow(this.targetY - this.canvasElement.localY, 2));
         var time = distance / speed;
-        this.lerpByTime(targetX, targetY, time);
+        
+        this.lerpByTime(worldTargetX, worldTargetY, time);
     }
 
-    lerpByTime(targetX, targetY, time) {
-
+    lerpByTime(worldTargetX, worldTargetY, time) {
         var localCenter = this.canvasElement.parent.getPosition();
         //To local coords
         if (this.canvasElement.parent != undefined) {
-            this.targetX = targetX - localCenter[0];
-            this.targetY = targetY - localCenter[1];
+            this.targetX = worldTargetX - localCenter[0];
+            this.targetY = worldTargetY - localCenter[1];
+        }
+
+        //Unnecesary lerp, which might cause a division by 0.
+        if (time < 0.01) {
+            this.canvasElement.moveTo(this.targetX, this.targetY);
+            return;
         }
 
         var startingPosition = this.canvasElement.getPosition();
@@ -202,8 +208,10 @@ class CanvasLerpable {
         }
 
         var t = this.elapsedTime / this.targetTime;
-        this.canvasElement.localX = (1 - t) * this.startingX + t * this.targetX;
-        this.canvasElement.localY = (1 - t) * this.startingY + t * this.targetY;
+        var x = (1 - t) * this.startingX + t * this.targetX;
+        var y = (1 - t) * this.startingY + t * this.targetY;
+
+        this.canvasElement.moveTo(x, y);
     }
 
 }

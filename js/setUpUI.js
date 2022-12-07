@@ -46,4 +46,6 @@ function initCanvas() {
 
     dialogueBox.setParent(dialoguePanel);
     dialogueOk.setParent(dialoguePanel);
+
+    console.log("Version: 0.1");
 }

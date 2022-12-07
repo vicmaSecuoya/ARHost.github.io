@@ -1,19 +1,14 @@
 export class CanvasElement {
-    constructor(x, y, width, height, imagePath, context) {
+    constructor(x, y, width, height, context) {
         this.localX = x;
         this.localY = y;
         this.width = width;
         this.height = height;
         this.context = context;
 
-        this.image = new Image();
 
         this.parent = null;
         this.children = []
-
-        if (imagePath != "") {
-            this.image.src = imagePath;
-        }
     }
 
     getPosition() {
@@ -43,11 +38,15 @@ export class CanvasElement {
         this.localY = y;
     }
 
+    renderSelf(worldX, worldY) {
+        //Overwrite this function if inheriting
+    }
+
     render(offsetX, offsetY) {
+
         offsetX += this.localX;
         offsetY += this.localY;
-        
-        this.context.drawImage(this.image, offsetX, offsetY, this.width, this.height);
+        this.renderSelf(offsetX, offsetY);
 
         this.children.forEach(child => {
             child.render(offsetX, offsetY);

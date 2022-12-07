@@ -1,7 +1,10 @@
-import { GameCanvas } from "/js/Components/UI/gameCanvas.js"
-import { CanvasElement } from "/js/Components/UI/canvasElement.js"
-import { CanvasLerpable } from "/js/Components/UI/CanvasLerpable.js"
-import { CanvasSelectable } from "/js/Components/UI/CanvasSelectable.js"
+import { GameCanvas } from "./Components/UI/gameCanvas.js"
+import { CanvasElement } from "./Components/UI/canvasElement.js"
+import { CanvasLerpable } from "./Components/UI/CanvasLerpable.js"
+import { CanvasSelectable } from "./Components/UI/CanvasSelectable.js"
+import { CanvasText } from "./Components/UI/canvasText.js";
+import { CanvasImage } from "./Components/UI/canvasImage.js";
+import { DialogueBox } from "./GameObjects/Canvas/dialogueBox.js";
 
 const canvasElement = document.getElementById("gamecanvas");
 const context = canvasElement.getContext('2d');
@@ -21,30 +24,13 @@ canvasElement.addEventListener("mousemove", function (e) {
 });
 
 var elapsedTime = 0;
-var paths = {
-    "dialogueBox": "/assets/images/dialogue-box.png",
-    "dialogueButton": "/assets/images/ok.png",
-};
+
 
 initCanvas();
 
 
 
 function initCanvas() {
-
-    var dialoguePanel = new CanvasElement(0, 0, 0, 0, "", context);
-    var panelLerpable = new CanvasLerpable(dialoguePanel, gameCanvas);
-
-    var dialogueBox = new CanvasElement(10, 10, 1024, 256, paths.dialogueBox, context);
-
-    var dialogueOk = new CanvasElement(750, 200, 64, 64, paths.dialogueButton, context);
-    var canvasSelectable = new CanvasSelectable(dialogueOk, gameCanvas);
-    canvasSelectable.clicked = () => {
-        panelLerpable.lerpBySpeed(500, 200, 100);
-    };
-    gameCanvas.addElement(dialoguePanel);
-
-    dialogueBox.setParent(dialoguePanel);
-    dialogueOk.setParent(dialoguePanel);
+    var myDialogue = new DialogueBox(0, 0, context, gameCanvas);
 
 }

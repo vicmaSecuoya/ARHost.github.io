@@ -1,4 +1,4 @@
-import { CanvasElement } from "/js/Components/UI/canvasElement.js";
+import { CanvasElement } from "./canvasElement.js";
 export class GameCanvas {
 
     constructor(context) {

@@ -1,32 +1,28 @@
-class canvasSelectable {
+export class CanvasSelectable {
 
-    constructor(canvasElement, context) {
+    constructor(canvasElement, gameCanvas) {
         this.canvasElement = canvasElement;
-        this.context = context;
-        context.selectables.push(this);
+        gameCanvas.selectables.push(this);
     }
 
-
-    notifyClick(down, x, y) {
-        console.log("Clicked by my paarent! " + down);
-
-        var worldPosition = this.canvasElement.getPosition();
-
-        // AABB
-        if (worldPosition.x >= x && worldPosition.y <= y) {
-            if ((worldPosition.y + this.canvasElement.height <= y) && (worldPosition.x + this.canvasElement.width >= worldPosition.y)) {
-                clicked();
-                debugger        
-            }
-        }
-        debugger
-    }
 
     clicked() {
 
     }
 
+    notifyClick(down, x, y) {
+        var worldPosition = this.canvasElement.getPosition();
+
+        // AABB
+        if (worldPosition[0] <= x && worldPosition[1] <= y) {
+            if ((worldPosition[1] + this.canvasElement.height >= y) && (worldPosition[0] + this.canvasElement.width >= x)) {
+                this.clicked();
+            }
+        }
+    }
+
     notifyMove(x, y) {
 
     }
+
 }

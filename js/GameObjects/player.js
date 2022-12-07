@@ -9,7 +9,7 @@ AFRAME.registerComponent('player', {
 
         console.log("Create Player");
 
-        this.el.setAttribute("modelrenderer", "../assets/gltf/character.gltf");
+        this.el.setAttribute("modelrenderer", "/assets/gltf/character.gltf");
         this.el.setAttribute("mobilebody", "");
         this.el.setAttribute("collider", "");
 

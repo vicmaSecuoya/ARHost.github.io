@@ -4,11 +4,29 @@ class GameCanvas {
 
         this.root = new CanvasElement(0, 0, 0, 0, "");
         this.selectables = [];
+        this.lerpables = [];
+
+        this.lastUpdate = Date.now();
+        setInterval(() => {
+
+            var deltaTime = Date.now() - this.lastUpdate;
+            this.lastUpdate = Date.now();
+            this.updateLerp(deltaTime * 0.001);
+            this.drawElements();
+        }, 1 / 15);
+
+
     }
 
     addElement(newCanvasElement) {
 
         newCanvasElement.setParent(this.root);
+    }
+
+    updateLerp(deltaTime) {
+        this.lerpables.forEach(element => {
+            element.updateLerp(deltaTime);
+        });
     }
 
     notifyClick(down, x, y) {
@@ -44,14 +62,6 @@ class CanvasElement {
         this.parent = null;
         this.children = []
 
-        //Lerp
-        this.lerpTime = 0;
-        this.lerpElapsedTime = 0;
-        this.lerpX = 0;
-        this.lerpY = 0;
-        this.leerping = false;
-
-
         if (imagePath != "") {
 
             this.image.src = imagePath;
@@ -69,7 +79,7 @@ class CanvasElement {
             var parentCoords = this.parent.getPosition();
 
             offsetX = parentCoords[0] + offsetX;
-            offsetY = parentCoords[1] + + offsetX;
+            offsetY = parentCoords[1] + offsetY;
         }
         return [this.localX + offsetX, this.localY + offsetY];
     }
@@ -86,10 +96,6 @@ class CanvasElement {
     move(x, y) {
         this.x = x;
         this.y = y;
-    }
-
-    lerp(targetX, targetY, speed) {
-
     }
 
     render(offsetX, offsetY) {
@@ -118,6 +124,7 @@ class CanvasSelectable {
 
     notifyClick(down, x, y) {
         var worldPosition = this.canvasElement.getPosition();
+
         // AABB
         if (worldPosition[0] <= x && worldPosition[1] <= y) {
             if ((worldPosition[1] + this.canvasElement.height >= y) && (worldPosition[0] + this.canvasElement.width >= x)) {
@@ -130,6 +137,74 @@ class CanvasSelectable {
 
     }
 
+
+}
+
+class CanvasLerpable {
+
+    constructor(canvasElement, gameCanvas) {
+        this.canvasElement = canvasElement;
+        //Lerp
+        this.targetTime = 0;
+        this.elapsedTime = 0;
+
+        this.startingX = 0;
+        this.startingY = 0;
+
+        this.targetX = 0;
+        this.targetY = 0;
+
+        this.lerping = false;
+
+        gameCanvas.lerpables.push(this);
+    }
+
+    lerpBySpeed(targetX, targetY, speed) {
+        var localCenter = this.canvasElement.parent.getPosition();
+        //To local coords
+        if (this.canvasElement.parent != undefined) {
+            this.targetX = targetX - localCenter[0];
+            this.targetY = targetY - localCenter[1];
+        }
+
+        var distance = Math.sqrt(Math.pow(this.targetX - this.canvasElement.localX, 2) + Math.pow(this.targetY - this.canvasElement.localY, 2));
+        var time = distance / speed;
+        this.lerpByTime(targetX, targetY, time);
+    }
+
+    lerpByTime(targetX, targetY, time) {
+
+        var localCenter = this.canvasElement.parent.getPosition();
+        //To local coords
+        if (this.canvasElement.parent != undefined) {
+            this.targetX = targetX - localCenter[0];
+            this.targetY = targetY - localCenter[1];
+        }
+
+        var startingPosition = this.canvasElement.getPosition();
+        this.startingX = startingPosition[0];
+        this.startingY = startingPosition[1];
+
+        this.targetTime = time;
+        this.elapsedTime = 0;
+
+        this.lerping = true;
+    }
+
+    updateLerp(deltaTime) {
+        if (this.lerping == false) return;
+        this.elapsedTime += deltaTime;
+
+        if (this.elapsedTime >= this.targetTime) {
+            this.elapsedTime = this.targetTime;
+            this.lerping = false;
+            console.log("done");
+        }
+
+        var t = this.elapsedTime / this.targetTime;
+        this.canvasElement.localX = (1 - t) * this.startingX + t * this.targetX;
+        this.canvasElement.localY = (1 - t) * this.startingY + t * this.targetY;
+    }
 
 }
 
@@ -157,26 +232,22 @@ var paths = {
 
 initCanvas();
 
-setInterval((time, deltaTime) => {
-
-    gameCanvas.drawElements();
-}, 1 / 15);
 
 
 function initCanvas() {
 
     var dialoguePanel = new CanvasElement(0, 0, 0, 0, "");
+    var panelLerpable = new CanvasLerpable(dialoguePanel, gameCanvas);
+
     var dialogueBox = new CanvasElement(10, 10, 1024, 256, paths.dialogueBox);
 
     var dialogueOk = new CanvasElement(750, 200, 64, 64, paths.dialogueButton);
     var canvasSelectable = new CanvasSelectable(dialogueOk, gameCanvas, context);
     canvasSelectable.clicked = () => {
-        console.log("yep");
+        panelLerpable.lerpBySpeed(500, 200, 100);
     };
     gameCanvas.addElement(dialoguePanel);
 
     dialogueBox.setParent(dialoguePanel);
     dialogueOk.setParent(dialoguePanel);
-
-    console.log("Ok!");
 }

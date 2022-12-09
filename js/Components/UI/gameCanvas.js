@@ -4,7 +4,7 @@ export class GameCanvas {
     constructor(context) {
 
         this.context = context;
-        this.root = new CanvasElement(0, 0, 0, 0, "", context);
+        this.root = new CanvasElement(0, 0, context);
         this.selectables = [];
         this.lerpables = [];
 

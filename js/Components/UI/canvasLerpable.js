@@ -18,26 +18,17 @@ export class CanvasLerpable {
     }
 
     lerpBySpeed(worldTargetX, worldTargetY, speed) {
-        var localCenter = this.canvasElement.parent.getPosition();
-        //To local coords
-        if (this.canvasElement.parent != undefined) {
-            this.targetX = worldTargetX - localCenter[0];
-            this.targetY = worldTargetY - localCenter[1];
-        }
+        var worldCenter = this.canvasElement.getPosition();
 
-        var distance = Math.sqrt(Math.pow(this.targetX - this.canvasElement.localX, 2) + Math.pow(this.targetY - this.canvasElement.localY, 2));
+        var distance = Math.sqrt(Math.pow(this.targetX - worldCenter[0], 2) + Math.pow(this.targetY - worldCenter[1], 2));
         var time = distance / speed;
-        
+
         this.lerpByTime(worldTargetX, worldTargetY, time);
     }
 
     lerpByTime(worldTargetX, worldTargetY, time) {
-        var localCenter = this.canvasElement.parent.getPosition();
-        //To local coords
-        if (this.canvasElement.parent != undefined) {
-            this.targetX = worldTargetX - localCenter[0];
-            this.targetY = worldTargetY - localCenter[1];
-        }
+        this.targetX = worldTargetX;
+        this.targetY = worldTargetY;
 
         //Unnecesary lerp, which might cause a division by 0.
         if (time < 0.01) {

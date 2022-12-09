@@ -1,10 +1,18 @@
 import { GameCanvas } from "./Components/UI/gameCanvas.js"
-import { CanvasElement } from "./Components/UI/canvasElement.js"
-import { CanvasLerpable } from "./Components/UI/CanvasLerpable.js"
-import { CanvasSelectable } from "./Components/UI/CanvasSelectable.js"
-import { CanvasText } from "./Components/UI/canvasText.js";
-import { CanvasImage } from "./Components/UI/canvasImage.js";
-import { DialogueBox } from "./GameObjects/Canvas/dialogueBox.js";
+import { CharacterSelection } from "./GameObjects/Canvas/characterSelection.js";
+
+const LeftTopPosition = [0, 0]
+const TopPosition = [960, 0]
+const RightTopPosition = [1920, 0]
+
+const LeftBotPosition = [0, 1080]
+const BotPosition = [960, 1080]
+const RightBotPosition = [1920, 1080]
+
+const LeftPosition = [0, 540]
+const RightPosition = [1920, 540]
+
+const centerPosition = [960, 540]
 
 const canvasElement = document.getElementById("gamecanvas");
 const context = canvasElement.getContext('2d');
@@ -23,14 +31,11 @@ canvasElement.addEventListener("mousemove", function (e) {
     gameCanvas.notifyMove(e.offsetX, e.offsetY);
 });
 
-var elapsedTime = 0;
-
 
 initCanvas();
 
-
-
 function initCanvas() {
-    var myDialogue = new DialogueBox(0, 0, context, gameCanvas);
-
+    var myMenu = new CharacterSelection(0, 0, context, gameCanvas);
+    
+    myMenu.display();
 }

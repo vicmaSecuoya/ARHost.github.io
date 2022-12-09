@@ -98,16 +98,7 @@
 	<script type="text/javascript">
 		console.log("Version: 0.1.1");
 	</script>
-	<div class="row-12">
-
-		<!-- top-left -->
-		<div class="regionUI skyColor" style="top: 10px; left: 10px;" oncontextmenu="return false;">
-		</div>
-
-		<!-- top-right -->
-		<div class="regionUI" style="top: 10px; right: 10px;">
-		</div>
-
+	<div>
 		<!-- bottom-left -->
 		<div class="regionUI" style="bottom: 10px; left: 10px;">
 			<div class="buttonUI" style="width: 128px;  opacity:0.80;">
@@ -160,7 +151,7 @@
 			<a-entity player></a-entity>
 			<a-entity building position="1 0 0.24" rotation="90 45 0"></a-entity>
 		</a-marker>
-		
+
 
 		<a-entity camera id="camera">
 			<a-gui-cursor id="cursor" raycaster="objects: [interactable]" fuse="true" fuse-timeout="2000"
@@ -171,8 +162,10 @@
 		<a-entity canvasupdater>
 			</canvasupdater>
 	</a-scene>
+	<audio src="/assets/Sound/Music/megalovania.mp3"></audio>
 
 	<script type="module" src="./js/setUpUI.js" type="text/javascript"></script>
+	<script type="module" src="./js/soundSystem.js" type="text/javascript"></script>
 
 </body>
 

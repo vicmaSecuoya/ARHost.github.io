@@ -1,11 +1,12 @@
 export class CanvasElement {
-    constructor(x, y, width, height, context) {
-        this.localX = x;
-        this.localY = y;
-        this.width = width;
-        this.height = height;
+    constructor(x, y, context, width = 0, height = 0) {
         this.context = context;
 
+        this.width = width;
+        this.height = height;
+        this.localX = 0;
+        this.localY = 0;
+        this.moveTo(x, y);
 
         this.parent = null;
         this.children = []
@@ -21,21 +22,50 @@ export class CanvasElement {
             offsetX = parentCoords[0] + offsetX;
             offsetY = parentCoords[1] + offsetY;
         }
+
         return [this.localX + offsetX, this.localY + offsetY];
     }
 
     setParent(parent) {
+
+        if (parent == this) return;
+
+        //Remove child from parent
+        if (this.parent != undefined) {
+            this.parent.children = this.parent.children.filter(child => child != this);
+        }
+
         this.parent = parent;
         this.parent.children.push(this);
 
-        //It only accepts one depth for now!
-        this.localX -= parent.localX;
-        this.localY -= parent.localY;
+        var worldPosition = this.getPosition();
+        var parentWorldPosition = parent.getPosition();
+
+        this.localX = worldPosition[0] - parentWorldPosition[0];
+        this.localY = worldPosition[1] - parentWorldPosition[1];
     }
 
-    moveTo(x, y) {
+    moveTo(x, y, local = false) {
+
+        if (local == false) {
+            if (this.parent != undefined) {
+                var parentWorld = this.parent.getPosition();
+
+                x = x - parentWorld[0];
+                y = y - parentWorld[1];
+            }
+        }
+
         this.localX = x;
         this.localY = y;
+    }
+
+    getCenterPosition() {
+        var worldPosition = this.getPosition();
+        worldPosition[0] += 0.5 * this.width;
+        worldPosition[1] += 0.5 * this.height;
+
+        return worldPosition;
     }
 
     renderSelf(worldX, worldY) {
@@ -46,6 +76,7 @@ export class CanvasElement {
 
         offsetX += this.localX;
         offsetY += this.localY;
+
         this.renderSelf(offsetX, offsetY);
 
         this.children.forEach(child => {

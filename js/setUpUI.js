@@ -36,6 +36,5 @@ initCanvas();
 
 function initCanvas() {
     var myMenu = new CharacterSelection(0, 0, context, gameCanvas);
-    
     myMenu.display();
 }

@@ -3,6 +3,7 @@ import { CanvasLerpable } from "../../Components/UI/CanvasLerpable.js";
 import { CanvasSelectable } from "../../Components/UI/canvasSelectable.js"
 import { CanvasImage } from "../../Components/UI/canvasImage.js"
 import { CanvasText } from "../../Components/UI/canvasText.js";
+import { AudioSource } from "../../Components/Sound/audioSource.js";
 
 var paths = {
     characterOne: "/assets/images/character-one.png",
@@ -28,6 +29,8 @@ export class CharacterSelection extends CanvasElement {
         this.createBox();
         this.createCharacters();
         this.createDialogueText();
+
+        this.audio = new AudioSource("/assets/Sound/khselect.mp3");
     }
 
 
@@ -54,11 +57,13 @@ export class CharacterSelection extends CanvasElement {
 
         canvasSelectableOne.clicked = () => {
             this.selectCharacter("Oooone");
+            this.audio.play();
             this.hide();
         };
 
         canvasSelectableTwo.clicked = () => {
             this.selectCharacter("Twoooo");
+            this.audio.play();
             this.hide();
         };
     }

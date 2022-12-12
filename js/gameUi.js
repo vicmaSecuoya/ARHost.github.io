@@ -17,7 +17,7 @@ const centerPosition = [960, 540]
 const canvasElement = document.getElementById("gamecanvas");
 const context = canvasElement.getContext('2d');
 
-const gameCanvas = new GameCanvas(context);
+window.gameCanvas = new GameCanvas(context);
 
 canvasElement.addEventListener("mousedown", function (e) {
     gameCanvas.notifyClick(true, e.offsetX, e.offsetY);
@@ -31,10 +31,7 @@ canvasElement.addEventListener("mousemove", function (e) {
     gameCanvas.notifyMove(e.offsetX, e.offsetY);
 });
 
-
-initCanvas();
-
-function initCanvas() {
-    var myMenu = new CharacterSelection(0, 0, context, gameCanvas);
+var myMenu = new CharacterSelection(0, 0, context, gameCanvas);
+window.gameCanvas.displayMenu = () => {
     myMenu.display();
-}
+};

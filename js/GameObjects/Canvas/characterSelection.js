@@ -16,6 +16,16 @@ var paths = {
 
 export class CharacterSelection extends CanvasElement {
 
+    /*
+    OK Champion, cucha. Ahora mismo sabes meter sonidos, y tienes hecho un apaño para hacer las interfaces. Tienes ahora las siguientes tareas:
+    - Asociacion de scenes con markers
+    - Desacoplar una interfaz básica de todas las escenas que haya
+    - Raycast para navegar con el personaje de algún modo
+    - Character controller de algun modo
+    - Coherencia secuencial
+    Tendrás que hablarlo con los jefazos porque has ido mas rapido de lo que pensabas. Propon las alternativas del juego.
+    */
+
     constructor(x, y, context, gameCanvas) {
         super(x, y, context);
         this.gameCanvas = gameCanvas;
@@ -64,6 +74,10 @@ export class CharacterSelection extends CanvasElement {
         canvasSelectableTwo.clicked = () => {
             this.selectCharacter("Twoooo");
             this.audio.play();
+
+            var scene = document.getElementById("mainscene");
+            scene.parentNode.removeChild(scene);
+
             this.hide();
         };
     }

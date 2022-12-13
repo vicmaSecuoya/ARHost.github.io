@@ -48,4 +48,7 @@ export class GameCanvas {
         this.context.clearRect(0, 0, 1920, 1080);
         this.root.render(0, 0);
     }
+
+    
+
 }

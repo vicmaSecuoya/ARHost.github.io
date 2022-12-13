@@ -123,19 +123,19 @@
 	<!--
 		Components must be initialized before their use! Do not add them directly in <a-scene>, thats a bad practice
 	-->
-	<script src="./js/Components/modelRenderer.js" type="text/javascript"></script>
-	<script src="./js/Components/mobileBody.js" type="text/javascript"></script>
-	<script src="./js/Components/collider.js" type="text/javascript"></script>
+	<script src="./src/js/Components/modelRenderer.js" type="text/javascript"></script>
+	<script src="./src/js/Components/mobileBody.js" type="text/javascript"></script>
+	<script src="./src/js/Components/collider.js" type="text/javascript"></script>
 
-	<script src="./js/Functions/Input/joystick.js" type="text/javascript"></script>
+	<script src="/src/js/Functions/Input/joystick.js" type="text/javascript"></script>
 
 	<canvas id="gamecanvas" width="1920" height="1080"
 		style="position: absolute; top: 0px;left: 0px;z-index: 3;"></canvas>
 
-	<script src="./js/GameObjects/player.js" type="text/javascript"></script>
-	<script src="./js/GameObjects/building.js" type="text/javascript"></script>
-	<script src="/js/markerLevel.js"></script>
-	<script type="module" src="./js/gameUi.js" type="text/javascript"></script>
+	<script src="./src/js/GameObjects/player.js" type="text/javascript"></script>
+	<script src="./src/js/GameObjects/building.js" type="text/javascript"></script>
+	<script src="./src/js/markerLevel.js"></script>
+	<script type="module" src="/src/js/gameUi.js" type="text/javascript"></script>
 
 	<a-scene id="mainscene" embedded arjs='sourceType: webcam;'
 		renderer='antialias: true; alpha: true; precision: medium;'>
@@ -165,8 +165,8 @@
 		</a-marker>
 	</a-scene>
 
-	<script type="module" src="./js/soundSystem.js" type="text/javascript"></script>
-	<script type="module" src="./js/gameScene.js" type="text/javascript"></script>
+	<script type="module" src="./src/js/soundSystem.js" type="text/javascript"></script>
+	<script type="module" src="./src/js/gameScene.js" type="text/javascript"></script>
 
 </body>
 
